@@ -1,0 +1,15 @@
+.navBar {
+  background: #003343;
+}
+
+.links {
+  display: flex;
+  flex-grow: 1;
+}
+
+.navLink {
+  color: #fff;
+  padding: 0 1rem;
+  text-decoration: none;
+  text-transform: capitalize;
+}
