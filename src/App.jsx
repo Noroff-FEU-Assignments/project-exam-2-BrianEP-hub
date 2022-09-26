@@ -1,7 +1,8 @@
 import React from 'react';
-import { Navbar } from './components';
+import { Footer, Navbar } from './components';
 import { Home, Admin, Rooms, Contact } from './pages';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Container } from '@mui/material';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           </Routes>
         </div>
       </Router>
+      <Footer />
     </>
   );
 };
