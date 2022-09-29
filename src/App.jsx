@@ -9,14 +9,14 @@ const App = () => {
     <>
       <Router>
         <Navbar />
-        <div>
+        <Container xs={12}>
           <Routes>
-            <Route index path="/home" element={<Home />} />
+            <Route index element={<Home />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-        </div>
+        </Container>
       </Router>
       <Footer />
     </>
