@@ -5,9 +5,13 @@ import { ContactForm } from '../../components';
 const Contact = () => {
   return (
     <>
-      <Grid container>
-        <ContactForm />
-        <Typography variant="h5">Contact us</Typography>
+      <Grid container spacing={1}>
+        <Grid item>
+          <ContactForm />
+        </Grid>
+        <Grid item>
+          <Typography variant="h5">Contact us</Typography>
+        </Grid>
       </Grid>
     </>
   );

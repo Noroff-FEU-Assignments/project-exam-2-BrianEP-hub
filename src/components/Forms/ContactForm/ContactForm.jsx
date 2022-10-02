@@ -1,9 +1,21 @@
+import React, { useState } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
-import React from 'react';
 
 const ContactForm = () => {
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = e => {
+    const form = e.currentTarget;
+
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagination();
+    }
+    setValidated(true);
+  };
+
   return (
-    <form>
+    <form validated={validated} onSubmit={handleSubmit}>
       <Grid container spacing={1}>
         <Grid xs={12} sm={6} item>
           <TextField

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Modal, Toolbar, Typography } from '@mui/material';
+import LoginForm from '../Forms/LoginForm/LoginForm';
 import styles from './Navbar.module.scss';
 
 const pages = [
@@ -18,7 +19,23 @@ const pages = [
   },
 ];
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '|px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const loginModal = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <AppBar position="static" className={styles.navBar}>
@@ -34,8 +51,15 @@ const Navbar = () => {
               ))}
             </Box>
             <Box>
-              <Button color="inherit">Login</Button>
+              <Button color="inherit" onClick={loginModal}>
+                Login
+              </Button>
             </Box>
+            <Modal open={open} onClose={handleClose}>
+              <Box sx={style}>
+                <LoginForm />
+              </Box>
+            </Modal>
           </Toolbar>
         </Box>
       </AppBar>
