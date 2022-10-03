@@ -1,10 +1,12 @@
-.parent {
-  display: flex;
-  gap: 10px;
-  flex-flow: row wrap;
-  width: 100%;
-  justify-content: space-evenly;
-  .child {
-    display: flex;
-  }
+.container {
+	.parent {
+		display: flex;
+		gap: 10px;
+		flex-flow: row wrap;
+		width: 100%;
+		justify-content: space-evenly;
+		.child {
+			display: flex;
+		}
+	}
 }

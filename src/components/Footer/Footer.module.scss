@@ -1,16 +1,25 @@
 .footer {
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px 0;
-  height: 120px;
-  background: #003343 !important;
-  .copy {
-    color: #fff;
-    justify-content: center;
-    align-items: center;
-  }
+	position: absolute;
+	bottom: 0;
+	display: flex !important;
+	justify-content: space-between !important;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 10px 0;
+	height: 120px;
+	background: #003343 !important;
+	color: #fff;
+	.socials {
+		display: flex;
+		flex-flow: column;
+		padding-right: 0.5rem;
+	}
+	.copy {
+		justify-content: center;
+		align-items: center;
+	}
+	.links {
+		padding-left: 0.5rem;
+	}
 }
