@@ -1,7 +1,12 @@
 import React from 'react';
+import { ImageSlider } from '../../components';
 
 const Home = () => {
-  return <div>Home</div>;
+	return (
+		<>
+			<ImageSlider />
+		</>
+	);
 };
 
 export default Home;
