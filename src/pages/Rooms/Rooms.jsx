@@ -26,7 +26,7 @@ const Rooms = () => {
 						) : (
 							<CardMedia></CardMedia>
 						)}
-						<Card className="child">
+						<Card className={styles.child}>
 							{loading ? (
 								<Skeleton
 									animation="wave"
