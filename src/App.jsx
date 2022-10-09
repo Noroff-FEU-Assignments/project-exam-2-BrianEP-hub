@@ -4,12 +4,14 @@ import { Home, Admin, Rooms, Contact } from './pages';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from '@mui/material';
 
+import './App.scss';
+
 const App = () => {
 	return (
 		<>
 			<Router>
 				<Navbar />
-				<Container maxWidth="lg">
+				<Container className=".container">
 					<Routes>
 						<Route index element={<Home />} />
 						<Route path="/admin" element={<Admin />} />
