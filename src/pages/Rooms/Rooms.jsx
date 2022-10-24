@@ -1,43 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
+	Button,
 	Card,
+	CardActions,
 	CardContent,
-	CardMedia,
 	Container,
-	Skeleton,
+	Typography,
 } from '@mui/material';
+
 import styles from './Rooms.module.scss';
 
 const Rooms = () => {
-	const loading = true;
+	// console.log(process.env.REACT_APP_BASE_URL);
+	useEffect(() => {
+		getRooms();
+	}, []);
+	const [rooms, setRooms] = useState([]);
+
+	const getRooms = () => {
+		axios.get(process.env.REACT_APP_ROOMS_URL).then(res => {
+			// console.log(res.data.data);
+			setRooms(res.data.data);
+		});
+	};
 
 	return (
 		<>
-			<Container maxWidth="lg" className={styles.container}>
+			<Container className={styles.container}>
 				<Card>
 					<CardContent className={styles.parent}>
-						{loading ? (
-							<Skeleton
-								animation="wave"
-								variant="rectangular"
-								width={200}
-								height={200}
-							/>
-						) : (
-							<CardMedia></CardMedia>
-						)}
-						<Card className={styles.child}>
-							{loading ? (
-								<Skeleton
-									animation="wave"
-									variant="rectangular"
-									width={500}
-									height={400}
-								/>
-							) : (
-								<CardContent> room content goes here</CardContent>
-							)}
-						</Card>
+						{rooms.map(room => (
+							<Card className={styles.child} key={room.id}>
+								<CardContent>
+									<Typography variant="h6">
+										{room.attributes.type.toUpperCase()}
+									</Typography>
+									<Typography variant="body2">
+										Number of beds: {room.attributes.beds}
+									</Typography>
+									<CardActions>
+										<Button variant="contained">Book</Button>
+									</CardActions>
+								</CardContent>
+							</Card>
+						))}
 					</CardContent>
 				</Card>
 			</Container>

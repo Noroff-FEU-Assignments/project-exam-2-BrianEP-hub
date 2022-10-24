@@ -43,7 +43,7 @@ const Navbar = () => {
 					<Toolbar>
 						<Box className={styles.links}>
 							{pages.map(page => (
-								<Typography variant="h6" component="div">
+								<Typography variant="h6" component="div" key={page.name}>
 									<NavLink to={page.link} className={styles.navLink}>
 										{page.name}
 									</NavLink>

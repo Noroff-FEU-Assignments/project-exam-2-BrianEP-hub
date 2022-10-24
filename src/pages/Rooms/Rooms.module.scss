@@ -2,8 +2,7 @@
 	.parent {
 		display: flex;
 		gap: 10px;
-		flex-flow: row wrap;
-		width: 100%;
+		flex-flow: column;
 		justify-content: space-evenly;
 		.child {
 			display: flex;
