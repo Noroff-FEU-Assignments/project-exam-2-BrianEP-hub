@@ -1,33 +1,42 @@
 import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 
 const LoginForm = () => {
-	const [validated, setValidated] = useState(false);
+	const navigate = useNavigate();
 	const [username, setUsername] = useState('');
-	const [password] = useState('');
+	const [password, setPassword] = useState('');
 
 	const handleLogin = async e => {
-		const form = e.currentTarget;
-
-		const loginInfo = {
-			identifier: form.username,
-			password: form.password,
-		};
-		axios
-			.post(process.env.REACT_APP_AUTH_URL, JSON.stringify(loginInfo))
-			.then(res => {
-				console.log(res.data);
-				localStorage.setItem('token', res.data.jwt);
-				setUsername(res.data.username);
-				setValidated(true);
-			});
 		e.preventDefault();
-		debugger;
+		const loginInfo = {
+			identifier: username,
+			password: password,
+		};
+		const options = {
+			method: 'POST',
+			headers: {
+				Accept: '*/*',
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify(loginInfo),
+		};
+		try {
+			const login = await fetch(
+				'http://localhost:1337/api/auth/local',
+				options,
+			);
+			const res = await login.json();
+			localStorage.setItem('token', res.jwt);
+			navigate('/admin');
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
-		<form validated={validated} onSubmit={handleLogin}>
+		<form  onSubmit={handleLogin}>
 			<Grid container spacing={2}>
 				<Typography variant="h5">Login</Typography>
 				<Grid xs={12} item>
@@ -37,9 +46,10 @@ const LoginForm = () => {
 						name="username"
 						id="username"
 						placeholder="Username"
-						// value={username}
+						value={username}
 						required
 						fullWidth
+						onChange={e => setUsername(e.target.value)}
 					></TextField>
 				</Grid>
 				<Grid xs={12} item>
@@ -49,9 +59,10 @@ const LoginForm = () => {
 						name="password"
 						placeholder="Password"
 						id="password"
-						// value={password}
+						value={password}
 						required
 						fullWidth
+						onChange={e => setPassword(e.target.value)}
 					></TextField>
 				</Grid>
 				<Grid xs={12} item>
