@@ -28,6 +28,7 @@ const LoginForm = () => {
 				options,
 			);
 			const res = await login.json();
+			localStorage.setItem('user', res.username);
 			localStorage.setItem('token', res.jwt);
 			navigate('/admin');
 		} catch (error) {
