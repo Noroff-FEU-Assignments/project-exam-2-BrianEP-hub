@@ -16,12 +16,13 @@ import styles from './carousel.module.scss';
 	},
 ]; */
 
-const ImageSlider = () => {
+const ImageSlider = ({image, text}) => {
 	useEffect(() => {
 		getHero();
-	}, []);
+	}, [image, text]);
 
 	const [hero, setHero] = useState([]);
+	const [img, setImg] = useState('')
 
 	const getHero = async () => {
 		const options = {
@@ -40,6 +41,7 @@ const ImageSlider = () => {
 
 			setHero(data.data);
 			console.log(data.data);
+			setImg(data.data.attributes.hero_banner.data.attributes.formats.small.url)
 		} catch (error) {
 			console.error(error);
 		}
@@ -53,8 +55,8 @@ const ImageSlider = () => {
 		>
 			<Paper className={styles.paper}>
 				<img
-					src={hero.hero_banner}
-					alt={hero.hero_alt_text}
+					src={`${process.env.REACT_APP_API_BASE_URL}${img}`}
+					alt={text}
 				/>
 			</Paper>
 		</Carousel>
@@ -63,6 +65,4 @@ const ImageSlider = () => {
 
 export default ImageSlider;
 
-/* const Item = props => {
-	return <Paper className={styles.paper}></Paper>;
-}; */
+
