@@ -36,6 +36,8 @@ const Navbar = () => {
 	const loginModal = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
+	const getUsername = localStorage.getItem('user');
+
 	return (
 		<>
 			<AppBar position="static" className={styles.navBar}>
@@ -50,11 +52,20 @@ const Navbar = () => {
 								</Typography>
 							))}
 						</Box>
+						{!getUsername ?
 						<Box>
 							<Button color="inherit" onClick={loginModal} variant="outlined">
 								Login
 							</Button>
 						</Box>
+						: <Box>
+							<Typography variant='h6' component='div'>
+								<NavLink to='/admin' className={styles.navLink}>
+									{getUsername}
+								</NavLink>
+							</Typography>
+						</Box>
+						}
 						<Modal open={open} onClose={handleClose}>
 							<Box sx={style}>
 								<LoginForm />

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
+
+
 
 const LoginForm = () => {
 	const navigate = useNavigate();
@@ -9,7 +11,7 @@ const LoginForm = () => {
 	const [password, setPassword] = useState('');
 
 	const handleLogin = async e => {
-		e.preventDefault();
+		// e.preventDefault();
 		const loginInfo = {
 			identifier: username,
 			password: password,
@@ -24,11 +26,11 @@ const LoginForm = () => {
 		};
 		try {
 			const login = await fetch(
-				'http://localhost:1337/api/auth/local',
+				process.env.REACT_APP_AUTH_URL,
 				options,
 			);
 			const res = await login.json();
-			localStorage.setItem('user', res.username);
+			localStorage.setItem('user', res.user.username);
 			localStorage.setItem('token', res.jwt);
 			navigate('/admin');
 		} catch (error) {
@@ -70,6 +72,14 @@ const LoginForm = () => {
 					<Button type="submit" variant="contained" fullWidth>
 						Login
 					</Button>
+				</Grid>
+				<Grid xs={12} item>
+					<Typography variant='body2'>
+						Not yet registered? &nbsp;
+						<NavLink to="/register">
+							click here
+						</NavLink>
+					</Typography>
 				</Grid>
 			</Grid>
 		</form>
