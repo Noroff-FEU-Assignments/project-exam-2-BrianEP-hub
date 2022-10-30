@@ -11,7 +11,7 @@ const LoginForm = () => {
 	const [password, setPassword] = useState('');
 
 	const handleLogin = async e => {
-		// e.preventDefault();
+		e.preventDefault();
 		const loginInfo = {
 			identifier: username,
 			password: password,

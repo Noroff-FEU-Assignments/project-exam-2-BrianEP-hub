@@ -1,5 +1,5 @@
 import React from 'react';
-import { Footer, Navbar, Payment } from './components';
+import { Footer, Navbar, Payment, Register } from './components';
 import { Home, Admin, Rooms, Contact } from './pages';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from '@mui/material';
@@ -17,6 +17,7 @@ const App = () => {
 						<Route path="/admin" element={<Admin />} />
 						<Route path="/rooms" element={<Rooms />} />
 						<Route path="/contact" element={<Contact />} />
+						<Route path="/register" element={<Register />} />
 						<Route exact path="/checkout" element={<Payment />} />
 					</Routes>
 				</Container>
