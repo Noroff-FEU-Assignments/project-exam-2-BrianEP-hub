@@ -14,7 +14,13 @@ const steps = ['details', 'payment', 'confirmation'];
 
 const Payment = () => {
 	const [checkoutStep, setCheckoutStep] = useState('details');
-	// const [bookingStep, setBookingStep] = useState('details');
+	const [guest, setGuest] = useState({
+		fullName: '',
+		checkIn: '',
+		leaveDate: '',
+		paid: Boolean,
+		roomNo: Number,
+	})
 
 	const handleNextStep = (e, step) => {
 		e.preventDefault();
@@ -24,6 +30,11 @@ const Payment = () => {
 		e.preventDefault();
 		setCheckoutStep(step);
 	};
+
+	const handleChange = (e) => {
+		const {name, value} = e.target;
+		setGuest({ ...guest, [name]: value});
+	}
 
 	return (
 		<div className={styles.checkout}>
@@ -44,7 +55,7 @@ const Payment = () => {
 							))}
 						</Stepper>
 					)}
-					{renderRelatedComponent(checkoutStep, handleNextStep, handlePrevStep)}
+					{renderRelatedComponent(checkoutStep, guest, handleChange, handleNextStep, handlePrevStep)}
 				</Paper>
 			</Container>
 		</div>

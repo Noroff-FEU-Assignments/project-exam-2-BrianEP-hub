@@ -3,6 +3,7 @@ import Confirmation from './Confirmation';
 
 export const renderRelatedComponent = ({
 	checkoutStep,
+	guest,
 	handleNextStep,
 	handlePrevStep,
 }) => {
@@ -10,6 +11,7 @@ export const renderRelatedComponent = ({
 		case 'details':
 			return (
 				<CheckoutForm
+					guest={guest}
 					handleNextStep={handleNextStep}
 					handlePrevStep={handlePrevStep}
 				/>
@@ -17,6 +19,7 @@ export const renderRelatedComponent = ({
 		case 'payment':
 			return (
 				<PaymentForm
+					guest={guest}
 					handleNextStep={handleNextStep}
 					handlePrevStep={handlePrevStep}
 				/>

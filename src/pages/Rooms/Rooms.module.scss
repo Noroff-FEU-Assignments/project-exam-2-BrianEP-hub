@@ -4,8 +4,19 @@
 		gap: 10px;
 		flex-flow: column;
 		justify-content: space-evenly;
+		// overflow: scroll;
 		.child {
 			display: flex;
+			flex-flow: column;
+			max-height: 600px;
+			.content{
+				display: flex;
+				gap: 10px;
+				.image{
+					height: 300px;
+					width: 300px;
+				}
+			}
 		}
 	}
 }

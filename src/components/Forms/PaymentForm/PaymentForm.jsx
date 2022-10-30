@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-const PaymentForm = ({ handleNextStep, handlePrevStep }) => {
+const PaymentForm = ({ guest, handleNextStep, handlePrevStep }) => {
 	return (
 		<>
+			
 			<div className="actions">
 				<Button
 					size="medium"
@@ -13,7 +14,7 @@ const PaymentForm = ({ handleNextStep, handlePrevStep }) => {
 					Go Back
 				</Button>
 				<Button
-					onClick={e => handleNextStep(e, 'payment')}
+					onClick={e => handleNextStep(e, 'confirmation')}
 					size="medium"
 					color="secondary"
 					variant="contained"

@@ -5,9 +5,12 @@ import {
 	Card,
 	CardActions,
 	CardContent,
+	CardHeader,
+	CardMedia,
 	Container,
 	Typography,
 } from '@mui/material';
+import moment from 'moment'
 
 import styles from './Rooms.module.scss';
 
@@ -19,11 +22,16 @@ const Rooms = () => {
 	const [rooms, setRooms] = useState([]);
 
 	const getRooms = () => {
-		axios.get(process.env.REACT_APP_ROOMS_URL).then(res => {
-			// console.log(res.data.data);
-			setRooms(res.data.data);
-		});
+		try {
+			axios.get(process.env.REACT_APP_ROOMS_URL).then(res => {
+				// console.log(res.data.data);
+				setRooms(res.data.data);
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
+
 
 	return (
 		<>
@@ -31,18 +39,28 @@ const Rooms = () => {
 				<Card>
 					<CardContent className={styles.parent}>
 						{rooms.map(room => (
-							<Card className={styles.child} key={room.id}>
-								<CardContent>
-									<Typography variant="h6">
-										{room.attributes.type.toUpperCase()}
+							<Card key={room.id} className={styles.child}>
+								<CardHeader
+									title={room.attributes.type.toUpperCase()}
+									subheader={`Published: ${moment(room.attributes.createdAt).format('DD/MMM/YYYY')}`}
+								/>
+								<CardContent className={styles.content}>
+									<CardMedia
+										className={styles.image}
+										component="img"
+										image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.image_url}`}
+										height="640px"
+									/>
+									<Typography variant="body1">
+										{room.attributes.description}
 									</Typography>
+								</CardContent>
 									<Typography variant="body2">
 										Number of beds: {room.attributes.beds}
 									</Typography>
-									<CardActions>
-										<Button variant="contained">Book</Button>
-									</CardActions>
-								</CardContent>
+								<CardActions>
+									<Button variant="contained">Book</Button>
+								</CardActions>
 							</Card>
 						))}
 					</CardContent>

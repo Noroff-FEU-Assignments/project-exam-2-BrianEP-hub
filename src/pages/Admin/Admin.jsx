@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, Container, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 
 const Admin = () => {
 	const navigate = useNavigate();
 	const username = localStorage.getItem('user');
 
+  useEffect(() => {
+    if(!username){
+      navigate('/');
+    }
+  })
+
 	const logout = () => {
 		localStorage.clear();
-		window.location.reload().then(
-				navigate('/'));
+    setTimeout(() => {
+      window.location.reload();
+    }, 100)
 	};
 
 	return (
