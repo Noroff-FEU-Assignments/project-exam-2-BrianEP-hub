@@ -3,7 +3,7 @@ import { Card, Container, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 
-const Admin = () => {
+const Profile = () => {
 	const navigate = useNavigate();
 	const username = localStorage.getItem('user');
 
@@ -34,4 +34,4 @@ const Admin = () => {
 	);
 };
 
-export default Admin;
+export default Profile;

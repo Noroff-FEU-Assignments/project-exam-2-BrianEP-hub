@@ -32,7 +32,7 @@ const LoginForm = () => {
 			const res = await login.json();
 			localStorage.setItem('user', res.user.username);
 			localStorage.setItem('token', res.jwt);
-			navigate('/admin');
+			navigate('/profile');
 		} catch (error) {
 			console.error(error);
 		}

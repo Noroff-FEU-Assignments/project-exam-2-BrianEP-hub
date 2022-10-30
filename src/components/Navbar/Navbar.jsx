@@ -62,7 +62,7 @@ const Navbar = () => {
 							)
 						: <Box>
 							<Typography variant='h6' component='div'>
-								<NavLink to='/admin' className={styles.navLink}>
+								<NavLink to='/profile' className={styles.navLink}>
 									{getUsername}
 								</NavLink>
 							</Typography>
