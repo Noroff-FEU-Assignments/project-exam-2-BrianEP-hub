@@ -4,18 +4,21 @@
 		gap: 10px;
 		flex-flow: column;
 		justify-content: space-evenly;
-		// overflow: scroll;
 		.child {
 			display: flex;
 			flex-flow: column;
-			max-height: 600px;
+			max-height: 500px;
 			.content{
 				display: flex;
 				gap: 10px;
 				.image{
-					height: 300px;
-					width: 300px;
+					height: 200px;
+					width: 20%;
 				}
+			}
+			.actions{
+				display: flex;
+				justify-content: space-between;
 			}
 		}
 	}

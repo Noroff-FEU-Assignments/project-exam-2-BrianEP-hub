@@ -55,10 +55,10 @@ const Rooms = () => {
 										{room.attributes.description}
 									</Typography>
 								</CardContent>
+								<CardActions className={styles.actions}>
 									<Typography variant="body2">
 										Number of beds: {room.attributes.beds}
 									</Typography>
-								<CardActions>
 									<Button variant="contained">Book</Button>
 								</CardActions>
 							</Card>

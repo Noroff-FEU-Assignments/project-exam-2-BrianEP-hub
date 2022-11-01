@@ -21,8 +21,7 @@ const Register = () => {
 			.then(res => {
 				setUser(res);
 
-        if(user){
-          
+        if(!user){
           navigate('/')
         }
 			});

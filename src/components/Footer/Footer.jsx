@@ -11,12 +11,12 @@ const Footer = () => {
 	return (
 		<BottomNavigation sx={{ flexGrow: 1 }} className={styles.footer}>
 			<div className={styles.links}>
-				<Typography variant="h6">Terms and conditions</Typography>
-				<Typography variant="h6">Frequently asked questions</Typography>
+				<Typography variant="body1">Terms and conditions</Typography>
+				<Typography variant="body1">Frequently asked questions</Typography>
 			</div>
 			<div className={styles.copy}>
-				<Typography variant="h6">Lorem ipsum dolor sit amet</Typography>
-				<Typography variant="h6">
+				<Typography variant="body1">Lorem ipsum dolor sit amet</Typography>
+				<Typography variant="body1">
 					Copyright Brian B &copy; {fullYear}
 				</Typography>
 			</div>

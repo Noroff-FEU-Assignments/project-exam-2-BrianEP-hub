@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -12,29 +13,17 @@ const LoginForm = () => {
 
 	const handleLogin = async e => {
 		e.preventDefault();
-		const loginInfo = {
-			identifier: username,
-			password: password,
-		};
-		const options = {
-			method: 'POST',
-			headers: {
-				Accept: '*/*',
-				'Content-type': 'application/json',
-			},
-			body: JSON.stringify(loginInfo),
-		};
 		try {
-			const login = await fetch(
-				process.env.REACT_APP_AUTH_URL,
-				options,
-			);
-			const res = await login.json();
-			localStorage.setItem('user', res.user.username);
-			localStorage.setItem('token', res.jwt);
-			navigate('/profile');
+			axios.post(process.env.REACT_APP_AUTH_URL, {
+				identifier: username,
+				password: password
+			}).then(res => {
+				localStorage.setItem('user', res.data.user.username);
+				localStorage.setItem('token', res.data.jwt);
+				navigate('/profile')
+			})
 		} catch (error) {
-			console.error(error);
+			console.error(error)
 		}
 	};
 
@@ -48,7 +37,7 @@ const LoginForm = () => {
 						variant="outlined"
 						name="username"
 						id="username"
-						placeholder="Username"
+						placeholder="Username/email"
 						value={username}
 						required
 						fullWidth
