@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AppBar, Box, Button, Modal, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import LoginForm from '../Forms/LoginForm/LoginForm';
 import styles from './Navbar.module.scss';
 
@@ -19,25 +19,11 @@ const pages = [
 	},
 ];
 
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 400,
-	bgcolor: 'background.paper',
-	border: '1px solid #000',
-	boxShadow: 24,
-	p: 4,
-};
-
 const Navbar = () => {
 	const [open, setOpen] = useState(false);
 	const loginModal = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const getUsername = localStorage.getItem('user');
-	
-	
 
 	return (
 		<>
@@ -55,24 +41,20 @@ const Navbar = () => {
 						</Box>
 						{!getUsername ? (
 							<Box>
-							<Button color="inherit" onClick={loginModal} variant="outlined">
-								Login
-							</Button>
-						</Box>
-							)
-						: <Box>
-							<Typography variant='h6' component='div'>
-								<NavLink to='/profile' className={styles.navLink}>
-									{getUsername}
-								</NavLink>
-							</Typography>
-						</Box>
-						}
-						<Modal open={open} onClose={handleClose}>
-							<Box sx={style}>
-								<LoginForm />
+								<Button color="inherit" onClick={loginModal} variant="outlined">
+									Login
+								</Button>
 							</Box>
-						</Modal>
+						) : (
+							<Box>
+								<Typography variant="h6" component="div">
+									<NavLink to="/profile" className={styles.navLink}>
+										{getUsername}
+									</NavLink>
+								</Typography>
+							</Box>
+						)}
+						<LoginForm open={open} onClose={handleClose} />
 					</Toolbar>
 				</Box>
 			</AppBar>

@@ -7,17 +7,17 @@ const Profile = () => {
 	const navigate = useNavigate();
 	const username = localStorage.getItem('user');
 
-  useEffect(() => {
-    if(!username){
-      navigate('/');
-    }
-  })
+	useEffect(() => {
+		if (!username) {
+			navigate('/');
+		}
+	});
 
 	const logout = () => {
 		localStorage.clear();
-    setTimeout(() => {
-      window.location.reload();
-    }, 100)
+		setTimeout(() => {
+			window.location.reload();
+		}, 100);
 	};
 
 	return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-	Button,
+	Box,	Button,
 	Card,
 	CardActions,
 	CardContent,
@@ -10,15 +10,20 @@ import {
 	Container,
 	Typography,
 } from '@mui/material';
-import moment from 'moment'
+import moment from 'moment';
 
 import styles from './Rooms.module.scss';
+import Details from '../../components/Details/Details';
 
 const Rooms = () => {
 	// console.log(process.env.REACT_APP_BASE_URL);
 	useEffect(() => {
 		getRooms();
 	}, []);
+
+	const [open, setOpen] = useState(false);
+	const detailModal = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 	const [rooms, setRooms] = useState([]);
 
 	const getRooms = () => {
@@ -32,7 +37,6 @@ const Rooms = () => {
 		}
 	};
 
-
 	return (
 		<>
 			<Container className={styles.container}>
@@ -42,7 +46,9 @@ const Rooms = () => {
 							<Card key={room.id} className={styles.child}>
 								<CardHeader
 									title={room.attributes.type.toUpperCase()}
-									subheader={`Published: ${moment(room.attributes.createdAt).format('DD/MMM/YYYY')}`}
+									subheader={`Published: ${moment(
+										room.attributes.createdAt,
+									).format('DD/MMM/YYYY')}`}
 								/>
 								<CardContent className={styles.content}>
 									<CardMedia
@@ -59,11 +65,15 @@ const Rooms = () => {
 									<Typography variant="body2">
 										Number of beds: {room.attributes.beds}
 									</Typography>
-									<Button variant="contained">Book</Button>
+									<Button variant="contained" onClick={detailModal}>
+										Details
+									</Button>
+									{/* Is to open a details modal or redirect to roomDetails page */}
 								</CardActions>
 							</Card>
 						))}
 					</CardContent>
+					<Details open={open} onClose={handleClose} />
 				</Card>
 			</Container>
 		</>
