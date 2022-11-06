@@ -18,7 +18,7 @@ const style = {
 	p: 4,
 };
 
-const LoginForm = ({ open, onClose }) => {
+const LoginForm = ({ open, onClose, closeAfterTransition}) => {
 	const navigate = useNavigate();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -35,6 +35,7 @@ const LoginForm = ({ open, onClose }) => {
 					localStorage.setItem('user', res.data.user.username);
 					localStorage.setItem('token', res.data.jwt);
 					navigate('/profile');
+					onClose();
 				});
 		} catch (error) {
 			console.error(error);

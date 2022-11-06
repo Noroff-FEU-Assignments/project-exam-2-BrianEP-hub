@@ -21,9 +21,9 @@ const style = {
 	p: 4,
 };
 
-const Details = ({ open, onClose }) => {
+const Details = ({ open, onClose, closeAfterTransition }) => {
 	return (
-		<Modal open={open} onClose={onClose}>
+		<Modal open={open} onClose={onClose} closeAfterTransition={closeAfterTransition}>
 			<Box sx={style}>
 				<Typography variant="h6">This is the details modal</Typography>
 			</Box>
