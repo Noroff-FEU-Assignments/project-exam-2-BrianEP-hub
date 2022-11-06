@@ -1,16 +1,21 @@
+@import '../../assets/styles/custom.scss';
+
 .navBar {
-  background: #003343 !important;
+  background: $color_primary !important;
   margin-bottom: 1rem;
 }
 
 .links {
   display: flex;
   flex-grow: 1;
+
 }
 
 .navLink {
-  color: #fff;
+  color: $color_light_text;
   padding: 0 1rem;
   text-decoration: none;
   text-transform: capitalize;
+  font-family: $font-subheader;
+  font-weight: 600;
 }

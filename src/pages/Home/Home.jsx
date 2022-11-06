@@ -2,6 +2,8 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import { ImageSlider } from '../../components';
 
+import styles from './home.module.scss';
+
 const Home = () => {
 	return (
 		<>
@@ -9,7 +11,7 @@ const Home = () => {
 				<ImageSlider />
 			</div>
 			<div>
-				<Typography variant="h4">
+				<Typography className={styles.header}>
 					This is the header of the home page
 				</Typography>
 			</div>
