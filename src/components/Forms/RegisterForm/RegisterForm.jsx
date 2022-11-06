@@ -1,17 +1,42 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { Button, Grid, TextField } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
-const Register = () => {
-  const navigate = useNavigate();
+
+const validationSchema = Yup.object().shape({
+	username: Yup.string()
+	.required('Username is required')
+	.min(6, 'Username has to be atleast 6 characters'),
+	email: Yup.string()
+	.required('Email is required')
+	.email('Check that you have typed correct email'),
+	password: Yup.string()
+	.required('Password is required')
+	.min(8, 'Password has to be atleast 8 characters')
+})
+
+
+const RegisterForm = () => {
+  	const navigate = useNavigate();
 	const [user, setUser] = useState({});
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [username, setUsername] = useState('');
 
-	const register = (e) => {
-    e.preventDefault();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm({
+		resolver: yupResolver(validationSchema)
+	})
+
+
+	const onRegister = () => {
 		axios
 			.post(process.env.REACT_APP_AUT_REGISTER_URL, {
 				username,
@@ -28,7 +53,7 @@ const Register = () => {
 	};
 
 	return (
-		<form onSubmit={register}>
+		<form onSubmit={handleSubmit(onRegister)}>
 			<Grid container spacing={2}>
 				<Grid xs={12} item>
 					<TextField
@@ -39,6 +64,9 @@ const Register = () => {
 						placeholder="username"
 						value={username}
 						fullWidth
+						{...register('username')}
+						error={errors.username ? true : false}
+						helperText={errors.username?.message}
 						onChange={e => setUsername(e.target.value)}
 					></TextField>
 				</Grid>
@@ -51,6 +79,9 @@ const Register = () => {
 						placeholder="email"
 						value={email}
 						fullWidth
+						{...register('email')}
+						error={errors.email ? true : false}
+						helperText={errors.email?.message}
 						onChange={e => setEmail(e.target.value)}
 					></TextField>
 				</Grid>
@@ -63,6 +94,9 @@ const Register = () => {
 						placeholder="password"
 						value={password}
 						fullWidth
+						{...register('password')}
+						error={errors.password ? true : false}
+						helperText={errors.password?.message}
 						onChange={e => setPassword(e.target.value)}
 					></TextField>
 				</Grid>
@@ -76,4 +110,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default RegisterForm;
