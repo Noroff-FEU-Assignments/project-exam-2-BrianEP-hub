@@ -13,23 +13,16 @@ import {
 import moment from 'moment';
 
 import styles from './Rooms.module.scss';
-import Details from '../../components/Details/Details';
 
 const Rooms = () => {
-	// console.log(process.env.REACT_APP_BASE_URL);
 	useEffect(() => {
 		getRooms();
 	}, []);
-
-	const [open, setOpen] = useState(false);
-	const detailModal = () => setOpen(true);
-	const handleClose = () => setOpen(false);
 	const [rooms, setRooms] = useState([]);
 
 	const getRooms = () => {
 		try {
 			axios.get(process.env.REACT_APP_ROOMS_URL).then(res => {
-				// console.log(res.data.data);
 				setRooms(res.data.data);
 			});
 		} catch (error) {
@@ -65,15 +58,13 @@ const Rooms = () => {
 									<Typography variant="body2">
 										Number of beds: {room.attributes.beds}
 									</Typography>
-									<Button variant="contained" onClick={detailModal}>
+									<Button variant="contained" href={`/rooms/${room.id}`}>
 										Details
 									</Button>
-									{/* Is to open a details modal or redirect to roomDetails page */}
 								</CardActions>
 							</Card>
 						))}
 					</CardContent>
-					<Details open={open} onClose={handleClose} />
 				</Card>
 			</Container>
 		</>

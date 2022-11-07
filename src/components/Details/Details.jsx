@@ -1,33 +1,35 @@
-import {
-	Card,
-	CardHeader,
-	CardContent,
-	Container,
-	Modal,
-	Typography,
-	Box,
-} from '@mui/material';
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
+import { Typography } from '@mui/material';
+import axios from 'axios';
+import { Container } from '@mui/system';
+import { useParams } from 'react-router-dom';
 
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 400,
-	bgcolor: 'background.paper',
-	border: '1px solid #000',
-	boxShadow: 24,
-	p: 4,
-};
+const Details = () => {
+	let { id } = useParams();
+	const [rooms, setRooms] = useState({});
+	const [ loading, isLoading ] = useState(false)
+	useEffect(() => {
+		getRoom();
+	}, []);
 
-const Details = ({ open, onClose, closeAfterTransition }) => {
+	const getRoom = async () => {
+		axios
+			.get(`${process.env.REACT_APP_ROOMS_URL}/${id}`)
+			.then(res => {
+				setRooms(res.data.data);
+				isLoading(true)
+			})
+			.catch(error => console.error(error));
+	};
+
 	return (
-		<Modal open={open} onClose={onClose} closeAfterTransition={closeAfterTransition}>
-			<Box sx={style}>
-				<Typography variant="h6">This is the details modal</Typography>
-			</Box>
-		</Modal>
+		<Container>
+			{loading ?
+				<Typography variant="h6">{rooms.attributes.type}</Typography>
+			: <Typography>Loading</Typography>
+			}
+		</Container>
 	);
 };
 

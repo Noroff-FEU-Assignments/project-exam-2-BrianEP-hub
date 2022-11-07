@@ -5,3 +5,4 @@ export { default as ImageSlider } from './Carousel/ImageSlider';
 export { default as Payment } from './Stepper/Payment';
 export { default as Footer } from './Footer/Footer';
 export { default as Register } from './Forms/RegisterForm/RegisterForm';
+export { default as Details } from './Details/Details';

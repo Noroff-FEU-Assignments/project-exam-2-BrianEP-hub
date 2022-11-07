@@ -18,7 +18,7 @@ const style = {
 	p: 4,
 };
 
-const LoginForm = ({ open, onClose, closeAfterTransition}) => {
+const LoginForm = ({ open, onClose }) => {
 	const navigate = useNavigate();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
