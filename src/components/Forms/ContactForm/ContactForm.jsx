@@ -1,21 +1,47 @@
 import React, { useState } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+  fullName: Yup.string()
+    .required('Enter your name'),
+  email: Yup.string()
+    .required('Email is required')
+    .email('Check that you have typed correct email'),
+  message: Yup.string()
+    .required('Please enter your message')
+    .min(20, 'Message cannot be shorter than 20 characters')
+})
+
 
 const ContactForm = () => {
-  const [validated, setValidated] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [number, setNumber] = useState('');
 
-  const handleSubmit = e => {
-    const form = e.currentTarget;
+  const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(validationSchema),
+	});
 
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      e.stopPropagination();
-    }
-    setValidated(true);
-  };
+  const onContact = () => {
+    axios
+      .post(process.env.REACT_APP_CONACT_URL, 
+      
+      )
+      .then(res => {
+        
+      })
+  }
+    
 
   return (
-    <form validated={validated} onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onContact)}>
       <Grid container spacing={1}>
         <Grid xs={12} sm={6} item>
           <TextField
@@ -24,6 +50,10 @@ const ContactForm = () => {
             variant="outlined"
             fullWidth
             required
+            {...register('fullName')}
+            error={errors.fullName ? true : false}
+						helperText={errors.fullName?.message}
+            onChange={e => setName(e.target.value)}
           />
         </Grid>
         <Grid xs={12} sm={6} item>
@@ -34,6 +64,10 @@ const ContactForm = () => {
             variant="outlined"
             fullWidth
             required
+            {...register('number')}
+            error={errors.number ? true : false}
+						helperText={errors.number?.message}
+            onChange={e => setNumber(e.target.value)}
           />
         </Grid>
         <Grid xs={12} item>
@@ -44,6 +78,10 @@ const ContactForm = () => {
             variant="outlined"
             fullWidth
             required
+            {...register('email')}
+            error={errors.message ? true : false}
+						helperText={errors.message?.message}
+            onChange={e => setEmail(e.target.value)}
           />
         </Grid>
         <Grid xs={12} item>
@@ -55,6 +93,10 @@ const ContactForm = () => {
             variant="outlined"
             fullWidth
             required
+            {...register('message')}
+            error={errors.message ? true : false}
+						helperText={errors.message?.message}
+            onChange={e => setMessage(e.target.value)}
           />
         </Grid>
         <Grid xs={12} item>

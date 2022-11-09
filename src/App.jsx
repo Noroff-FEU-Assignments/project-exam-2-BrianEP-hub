@@ -11,7 +11,7 @@ const App = () => {
 		<>
 			<Router>
 				<Navbar />
-				<Container className=".container">
+				<Container className="container">
 					<Routes>
 						<Route index element={<Home />} />
 						<Route path="/profile" element={<Profile />} />
