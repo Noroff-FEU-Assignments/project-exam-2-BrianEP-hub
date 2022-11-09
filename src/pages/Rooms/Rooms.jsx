@@ -48,7 +48,6 @@ const Rooms = () => {
 										className={styles.image}
 										component="img"
 										image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.image_url}`}
-										height="640px"
 									/>
 									<Typography variant="body1">
 										{room.attributes.description}
