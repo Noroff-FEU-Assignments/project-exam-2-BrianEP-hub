@@ -51,6 +51,7 @@ const Details = () => {
 							image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.image_url}`}
 						/>
 						<Typography variant="h6">{room.attributes.type}</Typography>
+						<Typography variant="body2" dangerouslySetInnerHTML={{__html: room.attributes.priceTable}} />
 					</CardContent>
 					<CardActions></CardActions>
 				</Card>

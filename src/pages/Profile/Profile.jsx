@@ -99,7 +99,7 @@ const Profile = () => {
 					<CardContent className={styles.cardsWrapper}>
 						<Card>
 							<CardHeader title="Rooms" />
-							<CardContent>
+							<CardContent className={styles.cards}>
 								<Button variant='contained'>Add Accommodation</Button>
 								{rooms.map(room => (
 									<Card key={room.id}>
@@ -115,7 +115,7 @@ const Profile = () => {
 						</Card>
 						<Card>
 							<CardHeader title="Messages" />
-							<CardContent>
+							<CardContent className={styles.cards}>
 								{messages.map(message => (
 									<Card key={message.id}>
 										<CardHeader title={message.attributes.fullName} />
@@ -133,7 +133,7 @@ const Profile = () => {
 						</Card>
 						<Card>
 							<CardHeader title="Guests" />
-							<CardContent>
+							<CardContent className={styles.cards}>
 								{guests.map(guest => (
 									<Card key={guest.id}>
 										<CardHeader title={guest.attributes.fullName} />
