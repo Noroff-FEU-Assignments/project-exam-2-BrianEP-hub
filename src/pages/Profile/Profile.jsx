@@ -9,6 +9,7 @@ import {
 	Button,
 	CardContent,
 	CardHeader,
+	AlertTitle,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -101,71 +102,72 @@ const Profile = () => {
 		}, 100);
 	};
 
+	if (error) {
+		return (
+			<Stack sx={{ width: '100%' }}>
+				<Alert severity="error" className="error">
+					<AlertTitle>{errorMessage.code}</AlertTitle>
+					{errorMessage.message}
+				</Alert>
+			</Stack>
+		);
+	}
+
 	return (
-		<>
-			{error ? (
-				<Stack sx={{ width: '100%' }}>
-					<Alert severity="error" className="error">
-						{errorMessage.message}
-					</Alert>
-				</Stack>
-			) : (
-				<Container>
-					<Button variant="contained" onClick={logout}>
-						Log out
-					</Button>
+		<Container>
+			<Button variant="contained" onClick={logout}>
+				Log out
+			</Button>
+			<Card>
+				<Typography variant="h6">Welcome {username}</Typography>
+				<CardContent className={styles.cardsWrapper}>
 					<Card>
-						<Typography variant="h6">Welcome {username}</Typography>
-						<CardContent className={styles.cardsWrapper}>
-							<Card>
-								<CardHeader title="Rooms" />
-								<CardContent className={styles.cards}>
-									<Button variant="contained">Add Accommodation</Button>
-									{rooms.map(room => (
-										<Card key={room.id}>
-											<CardHeader title={room.attributes.type.toUpperCase()} />
-											<CardContent>
-												<Typography variant="body2">
-													Number of beds: {room.attributes.beds}
-												</Typography>
-											</CardContent>
-										</Card>
-									))}
-								</CardContent>
-							</Card>
-							<Card>
-								<CardHeader title="Messages" />
-								<CardContent className={styles.cards}>
-									{messages.map(message => (
-										<Card key={message.id}>
-											<CardHeader title={message.attributes.fullName} />
-											<CardContent>
-												<Typography variant="body1">
-													{message.attributes.email}
-												</Typography>
-												<Typography variant="body2">
-													{message.attributes.message}
-												</Typography>
-											</CardContent>
-										</Card>
-									))}
-								</CardContent>
-							</Card>
-							<Card>
-								<CardHeader title="Guests" />
-								<CardContent className={styles.cards}>
-									{guests.map(guest => (
-										<Card key={guest.id}>
-											<CardHeader title={guest.attributes.fullName} />
-										</Card>
-									))}
-								</CardContent>
-							</Card>
+						<CardHeader title="Rooms" />
+						<CardContent className={styles.cards}>
+							<Button variant="contained">Add Accommodation</Button>
+							{rooms.map(room => (
+								<Card key={room.id}>
+									<CardHeader title={room.attributes.type.toUpperCase()} />
+									<CardContent>
+										<Typography variant="body2">
+											Number of beds: {room.attributes.beds}
+										</Typography>
+									</CardContent>
+								</Card>
+							))}
 						</CardContent>
 					</Card>
-				</Container>
-			)}
-		</>
+					<Card>
+						<CardHeader title="Messages" />
+						<CardContent className={styles.cards}>
+							{messages.map(message => (
+								<Card key={message.id}>
+									<CardHeader title={message.attributes.fullName} />
+									<CardContent>
+										<Typography variant="body1">
+											{message.attributes.email}
+										</Typography>
+										<Typography variant="body2">
+											{message.attributes.message}
+										</Typography>
+									</CardContent>
+								</Card>
+							))}
+						</CardContent>
+					</Card>
+					<Card>
+						<CardHeader title="Guests" />
+						<CardContent className={styles.cards}>
+							{guests.map(guest => (
+								<Card key={guest.id}>
+									<CardHeader title={guest.attributes.fullName} />
+								</Card>
+							))}
+						</CardContent>
+					</Card>
+				</CardContent>
+			</Card>
+		</Container>
 	);
 };
 
