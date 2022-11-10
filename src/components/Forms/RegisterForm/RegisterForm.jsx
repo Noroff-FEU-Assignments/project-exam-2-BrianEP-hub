@@ -10,6 +10,8 @@ const validationSchema = Yup.object().shape({
 	username: Yup.string()
 		.required('Username is required')
 		.min(6, 'Username has to be atleast 6 characters'),
+	fullName: Yup.string()
+		.required('Enter your name'),
 	email: Yup.string()
 		.required('Email is required')
 		.email('Check that you have typed correct email'),
@@ -21,6 +23,7 @@ const validationSchema = Yup.object().shape({
 const RegisterForm = () => {
 	const navigate = useNavigate();
 	const [user, setUser] = useState({});
+	const [fullName, setFullName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [username, setUsername] = useState('');
@@ -39,6 +42,7 @@ const RegisterForm = () => {
 				username,
 				password,
 				email,
+				role: 'Public',
 			})
 			.then(res => {
 				setUser(res);
@@ -69,6 +73,21 @@ const RegisterForm = () => {
 							error={errors.username ? true : false}
 							helperText={errors.username?.message}
 							onChange={e => setUsername(e.target.value)}
+						></TextField>
+					</Grid>
+					<Grid xs={12} item>
+						<TextField
+							type="text"
+							variant="outlined"
+							name="name"
+							id="fullName"
+							placeholder="name"
+							value={fullName}
+							fullWidth
+							{...register('fullName')}
+							error={errors.fullName ? true : false}
+							helperText={errors.fullName?.message}
+							onChange={e => setFullName(e.target.value)}
 						></TextField>
 					</Grid>
 					<Grid xs={12} item>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Grid, Modal, TextField, Typography } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import * as Yup from 'yup';
 import { Box } from '@mui/system';
-
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const style = {
 	position: 'absolute',
@@ -18,10 +19,23 @@ const style = {
 	p: 4,
 };
 
+const validationSchema = Yup.object().shape({
+	username: Yup.string().required('Please enter your username'),
+	password: Yup.string().required('Enter your password'),
+});
+
 const LoginForm = ({ open, onClose }) => {
 	const navigate = useNavigate();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(validationSchema),
+	});
 
 	const handleLogin = async e => {
 		e.preventDefault();
@@ -42,10 +56,15 @@ const LoginForm = ({ open, onClose }) => {
 		}
 	};
 
+	const goToRegister = () => {
+		navigate('/register');
+		onClose();
+	};
+
 	return (
 		<Modal open={open} onClose={onClose}>
 			<Box sx={style}>
-				<form onSubmit={handleLogin}>
+				<form onSubmit={handleSubmit(handleLogin)}>
 					<Grid container spacing={2}>
 						<Typography variant="h5">Login</Typography>
 						<Grid xs={12} item>
@@ -56,7 +75,9 @@ const LoginForm = ({ open, onClose }) => {
 								id="username"
 								placeholder="Username/email"
 								value={username}
-								required
+								{...register('username')}
+								error={errors.username ? true : false}
+								helperText={errors.username?.message}
 								fullWidth
 								onChange={e => setUsername(e.target.value)}
 							></TextField>
@@ -69,7 +90,9 @@ const LoginForm = ({ open, onClose }) => {
 								placeholder="Password"
 								id="password"
 								value={password}
-								required
+								{...register('password')}
+								error={errors.password ? true : false}
+								helperText={errors.password?.message}
 								fullWidth
 								onChange={e => setPassword(e.target.value)}
 							></TextField>
@@ -82,7 +105,7 @@ const LoginForm = ({ open, onClose }) => {
 						<Grid xs={12} item>
 							<Typography variant="body2">
 								Not yet registered? &nbsp;
-								<NavLink to="/register">click here</NavLink>
+								<Button onClick={goToRegister}>click here</Button>
 							</Typography>
 						</Grid>
 					</Grid>

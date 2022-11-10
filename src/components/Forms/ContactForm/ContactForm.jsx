@@ -30,7 +30,14 @@ const ContactForm = () => {
 	});
 
 	const onContact = () => {
-		axios.post(process.env.REACT_APP_CONACT_URL).then(res => {});
+		axios.post(process.env.REACT_APP_CONACT_URL, {
+			fullName,
+			email,
+			message,
+			number
+		}).then(res => {
+			
+		});
 	};
 
 	return (
