@@ -9,3 +9,7 @@ body {
 	min-height: 100vh;
 	// overflow: scroll;
 }
+.error{
+    background-color: rgb(22,11,11) !important;
+    color: $color_light_text !important;
+}

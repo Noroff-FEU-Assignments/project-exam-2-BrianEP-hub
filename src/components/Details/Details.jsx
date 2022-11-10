@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
+	Alert,
+	AlertTitle,
 	Card,
 	CardActions,
 	CardContent,
 	CardHeader,
 	CardMedia,
 	CircularProgress,
+	Stack,
 	Typography,
 } from '@mui/material';
 import axios from 'axios';
@@ -18,6 +21,9 @@ const Details = () => {
 	let { id } = useParams();
 	const [room, setRoom] = useState({});
 	const [loading, isLoading] = useState(true);
+	const [error, hasError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+
 	useEffect(() => {
 		getRoom();
 	}, []);
@@ -29,8 +35,26 @@ const Details = () => {
 				setRoom(res.data.data);
 				isLoading(false);
 			})
-			.catch(error => console.error(error));
+			.catch(error => {
+				console.error(error);
+				setErrorMessage(error);
+				isLoading(false);
+				hasError(true);
+			});
 	};
+
+	if (error) {
+		return (
+			<>
+				<Stack sx={{ width: '100%' }}>
+					<Alert severity="error" className="error">
+						<AlertTitle>{errorMessage.code}</AlertTitle>
+						{errorMessage.message}
+					</Alert>
+				</Stack>
+			</>
+		);
+	}
 
 	return (
 		<Container>
@@ -46,12 +70,15 @@ const Details = () => {
 					/>
 					<CardContent>
 						<CardMedia
-							height='640px'
+							height="640px"
 							component="img"
 							image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.image_url}`}
 						/>
 						<Typography variant="h6">{room.attributes.type}</Typography>
-						<Typography variant="body2" dangerouslySetInnerHTML={{__html: room.attributes.priceTable}} />
+						<Typography
+							variant="body2"
+							dangerouslySetInnerHTML={{ __html: room.attributes.priceTable }}
+						/>
 					</CardContent>
 					<CardActions></CardActions>
 				</Card>

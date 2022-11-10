@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {	
+import {
+	Alert,
+	AlertTitle,	
 	Button,
 	Card,
 	CardActions,
 	CardContent,
 	CardHeader,
 	CardMedia,
+	CircularProgress,
 	Container,
+	Stack,
 	Typography,
 } from '@mui/material';
 import moment from 'moment';
@@ -19,20 +23,39 @@ const Rooms = () => {
 		getRooms();
 	}, []);
 	const [rooms, setRooms] = useState([]);
+	const [loading, isLoading] = useState(true);
+	const [error, hasError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 
-	const getRooms = () => {
-		try {
+	const getRooms = async () => {
 			axios.get(process.env.REACT_APP_ROOMS_URL).then(res => {
 				setRooms(res.data.data);
-			});
-		} catch (error) {
-			console.error(error);
-		}
+			}).catch(error => {
+				console.error(error);
+				setErrorMessage(error);
+				isLoading(false);
+				hasError(true);
+			}) ;	
 	};
 
+	if (error) {
+		return (
+			<>
+				<Stack sx={{ width: '100%' }}>
+					<Alert severity="error" className="error">
+						<AlertTitle>{errorMessage.code}</AlertTitle>
+						{errorMessage.message}
+					</Alert>
+				</Stack>
+			</>
+		);
+	}
+
 	return (
-		<>
 			<Container className={styles.container}>
+				{loading ? (
+					<CircularProgress />
+				) : (
 				<Card>
 					<CardContent className={styles.parent}>
 						{rooms.map(room => (
@@ -65,8 +88,8 @@ const Rooms = () => {
 						))}
 					</CardContent>
 				</Card>
+				)}
 			</Container>
-		</>
 	);
 };
 
