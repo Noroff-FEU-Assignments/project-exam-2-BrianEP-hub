@@ -13,11 +13,14 @@ const validationSchema = Yup.object().shape({
 	message: Yup.string()
 		.required('Please enter your message')
 		.min(20, 'Message cannot be shorter than 20 characters'),
+	title: Yup.string()
+		.required('Title for message is required')
 });
 
 const ContactForm = () => {
 	const [fullName, setName] = useState('');
 	const [email, setEmail] = useState('');
+	const [title, setTitle] = useState('');
 	const [message, setMessage] = useState('');
 	const [number, setNumber] = useState('');
 
@@ -30,14 +33,33 @@ const ContactForm = () => {
 	});
 
 	const onContact = () => {
-		axios.post(process.env.REACT_APP_CONACT_URL, {
-			fullName,
-			email,
-			message,
-			number
-		}).then(res => {
+		try {
+			let headersList = {
+				"Content-Type": "application/json" 
+			   }
+			   
+			   let bodyContent = JSON.stringify({
+				 "data": {
+				   "email": email,
+				   "fullName": fullName,
+				   "message": message,
+				   "phoneNo": number,
+				   "title": title
+				 }
+			   });
+			   
+			   let reqOptions = {
+				 url: process.env.REACT_APP_MESSAGE_URL,
+				 method: "POST",
+				 headers: headersList,
+				 data: bodyContent,
+			   }
+			   
+			axios.request(reqOptions);	
+		} catch (error) {
 			
-		});
+		}
+		
 	};
 
 	return (
@@ -82,6 +104,19 @@ const ContactForm = () => {
 						error={errors.email ? true : false}
 						helperText={errors.email?.message}
 						onChange={e => setEmail(e.target.value)}
+					/>
+				</Grid>
+				<Grid xs={12} item>
+					<TextField
+						label="Title"
+						placeholder="Title"
+						variant="outlined"
+						fullWidth
+						{...register('title')}
+						value={title}
+						error={errors.title ? true : false}
+						helperText={errors.title?.message}
+						onChange={e => setTitle(e.target.value)}
 					/>
 				</Grid>
 				<Grid xs={12} item>

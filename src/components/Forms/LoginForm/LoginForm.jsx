@@ -38,7 +38,6 @@ const LoginForm = ({ open, onClose }) => {
 	});
 
 	const handleLogin = async e => {
-		e.preventDefault();
 		try {
 			axios
 				.post(process.env.REACT_APP_AUTH_URL, {
