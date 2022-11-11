@@ -9,7 +9,6 @@ import {
 	CardContent,
 	CardHeader,
 	CardMedia,
-	CircularProgress,
 	Container,
 	Stack,
 	Typography,
@@ -23,7 +22,6 @@ const Rooms = () => {
 		getRooms();
 	}, []);
 	const [rooms, setRooms] = useState([]);
-	const [loading, isLoading] = useState(true);
 	const [error, hasError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -33,7 +31,6 @@ const Rooms = () => {
 			}).catch(error => {
 				console.error(error);
 				setErrorMessage(error);
-				isLoading(false);
 				hasError(true);
 			}) ;	
 	};
@@ -53,9 +50,6 @@ const Rooms = () => {
 
 	return (
 			<Container className={styles.container}>
-				{loading ? (
-					<CircularProgress />
-				) : (
 				<Card>
 					<CardContent className={styles.parent}>
 						{rooms.map(room => (
@@ -88,7 +82,6 @@ const Rooms = () => {
 						))}
 					</CardContent>
 				</Card>
-				)}
 			</Container>
 	);
 };

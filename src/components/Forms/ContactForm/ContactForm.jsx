@@ -33,7 +33,6 @@ const ContactForm = () => {
 	});
 
 	const onContact = () => {
-		try {
 			let headersList = {
 				"Content-Type": "application/json" 
 			   }
@@ -53,12 +52,10 @@ const ContactForm = () => {
 				 method: "POST",
 				 headers: headersList,
 				 data: bodyContent,
-			   }
-			   
-			axios.request(reqOptions);	
-		} catch (error) {
-			
-		}
+			   }   
+			axios.request(reqOptions).then(res => {
+			}).catch(error => console.log(error));	
+		
 		
 	};
 
