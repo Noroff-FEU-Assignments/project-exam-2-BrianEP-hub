@@ -1,3 +1,7 @@
+## Login credentials
+  username: admin
+  password: Pass1234
+
 # Project Exam 2
 
 There are two options with this Project Exam.
