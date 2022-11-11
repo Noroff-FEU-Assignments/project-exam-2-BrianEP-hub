@@ -109,32 +109,32 @@ const Profile = () => {
 		}, 100);
 	};
 
-	const deleteRoom = (id) => {
+	const deleteRoom = id => {
 		let headersList = {
-			Authorization: `Bearer ${token}`
-		   }
-		   
-		   let reqOptions = {
-			 url: `${process.env.REACT_APP_ROOMS_URL}/${id}`,
-			 method: "DELETE",
-			 headers: headersList,
-		   }
-		   
-			axios.request(reqOptions);
-	}
-	const deleteMessage = (id) => {
+			Authorization: `Bearer ${token}`,
+		};
+
+		let reqOptions = {
+			url: `${process.env.REACT_APP_ROOMS_URL}/${id}`,
+			method: 'DELETE',
+			headers: headersList,
+		};
+
+		axios.request(reqOptions);
+	};
+	const deleteMessage = id => {
 		let headersList = {
-			Authorization: `Bearer ${token}`
-		   }
-		   
-		   let reqOptions = {
-			 url: `${process.env.REACT_APP_MESSAGE_URL}/${id}`,
-			 method: "DELETE",
-			 headers: headersList,
-		   }
-		   
-			axios.request(reqOptions);
-	}
+			Authorization: `Bearer ${token}`,
+		};
+
+		let reqOptions = {
+			url: `${process.env.REACT_APP_MESSAGE_URL}/${id}`,
+			method: 'DELETE',
+			headers: headersList,
+		};
+
+		axios.request(reqOptions);
+	};
 
 	if (error) {
 		return (
@@ -158,11 +158,17 @@ const Profile = () => {
 					<Card>
 						<CardHeader title="Rooms" />
 						<CardContent className={styles.cards}>
-							<Button variant="contained" onClick={roomModal}>Add Accommodation</Button>
+							<Button variant="contained" onClick={roomModal}>
+								Add Accommodation
+							</Button>
 							{rooms.map(room => (
 								<Card key={room.id}>
 									<CardHeader title={room.attributes.type.toUpperCase()} />
-									<Button onClick={() => {deleteRoom(room.id)}}>
+									<Button
+										onClick={() => {
+											deleteRoom(room.id);
+										}}
+									>
 										<DeleteIcon />
 									</Button>
 									<CardContent>
@@ -180,7 +186,11 @@ const Profile = () => {
 							{messages.map(message => (
 								<Card key={message.id}>
 									<CardHeader title={message.attributes.fullName} />
-									<Button onClick={() => {deleteMessage(message.id)}}>
+									<Button
+										onClick={() => {
+											deleteMessage(message.id);
+										}}
+									>
 										<DeleteIcon />
 									</Button>
 									<CardContent>
@@ -200,7 +210,16 @@ const Profile = () => {
 						<CardContent className={styles.cards}>
 							{guests.map(guest => (
 								<Card key={guest.id}>
-									<CardHeader title={guest.attributes.fullName} />
+									<CardHeader title={guest.attributes.fullname} />
+									<CardContent>
+										<Typography variant="body1">
+											Booked room: {guest.attributes.roomNo}
+										</Typography>
+										<Typography variant="body1">
+											Length of stay : {guest.attributes.checkin} -{' '}
+											{guest.attributes.leaveDate}
+										</Typography>
+									</CardContent>
 								</Card>
 							))}
 						</CardContent>

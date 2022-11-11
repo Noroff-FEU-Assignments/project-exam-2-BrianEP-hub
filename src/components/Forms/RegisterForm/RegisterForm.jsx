@@ -1,133 +1,172 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Button, Grid, TextField, Typography } from '@mui/material';
-import axios from 'axios';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {
+	Alert,
+	AlertTitle,
+	Button,
+	Grid,
+	Modal,
+	TextField,
+	Typography,
+} from '@mui/material';
 import * as Yup from 'yup';
+import { Box } from '@mui/system';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import axios from 'axios';
 
-const validationSchema = Yup.object().shape({
-	username: Yup.string()
-		.required('Username is required')
-		.min(6, 'Username has to be atleast 6 characters'),
-	fullName: Yup.string()
-		.required('Enter your name'),
-	email: Yup.string()
-		.required('Email is required')
-		.email('Check that you have typed correct email'),
-	password: Yup.string()
-		.required('Password is required')
-		.min(8, 'Password has to be atleast 8 characters'),
-});
+const style = {
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	width: 400,
+	bgcolor: '#fff',
+	border: '1px solid #000',
+	boxShadow: 24,
+	p: 4,
+};
 
-const RegisterForm = () => {
-	const navigate = useNavigate();
-	const [user, setUser] = useState({});
-	const [fullName, setFullName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [username, setUsername] = useState('');
+const validationSchema = Yup.object().shape({});
+
+const RegisterForm = ({ open, onClose, room }) => {
+	const [fullname, setName] = useState('');
+	const [checkin, setCheckin] = useState('');
+	const [leaveDate, setLeaveDate] = useState('');
+	const [roomNo, setRoomNo] = useState(room);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [error, setError] = useState(false);
+	const [paid, setPaid] = useState(false);
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm({
 		resolver: yupResolver(validationSchema),
 	});
 
-	const onRegister = () => {
-		axios
-			.post(process.env.REACT_APP_AUT_REGISTER_URL, {
-				username,
-				password,
-				email,
-				role: 'Public',
-			})
-			.then(res => {
-				setUser(res);
+	const bookRoom = () => {
+		let headerList = {
+			'Content-Type': 'application/json',
+		};
+		let bodyContent = JSON.stringify({
+			data: {
+				fullname: fullname,
+				checkin: checkin,
+				leaveDate: leaveDate,
+				roomNo: roomNo,
+				paid: paid,
+			},
+		});
+		let reqOptions = {
+			url: process.env.REACT_APP_GUEST_URL,
+			method: 'POST',
+			headers: headerList,
+			data: bodyContent,
+		};
 
-				if (!user) {
-					navigate('/');
-				}
+		axios
+			.request(reqOptions)
+			.then(res => {
+				console.log(res.data);
+				reset();
+			})
+			.catch(error => {
+				console.error(error);
+				setErrorMessage(error);
+				setError(true);
 			});
 	};
 
 	return (
-		<>
-			<form onSubmit={handleSubmit(onRegister)}>
-				<Grid container spacing={2}>
-					<Grid xs={12} item>
-						<Typography variant="h3">Register</Typography>
+		<Modal open={open} onClose={onClose}>
+			<Box sx={style}>
+				<Typography variant="h4">Book</Typography>
+				<form onSubmit={handleSubmit(bookRoom)}>
+					<Grid container spacing={2}>
+						<Grid xs={12} item>
+							<TextField
+								type="text"
+								variant="outlined"
+								name="fullname"
+								label="Full Name"
+								value={fullname}
+								{...register('fullname')}
+								error={errors.fullname ? true : false}
+								helperText={errors.fullname?.message}
+								onChange={e => setName(e.target.value)}
+								fullWidth
+							></TextField>
+						</Grid>
+						<Grid xs={6} item>
+							<TextField
+								type="text"
+								variant="outlined"
+								name="checkin"
+								label="Checkin date"
+								value={checkin}
+								{...register('checkin')}
+								error={errors.checkin ? true : false}
+								helperText={errors.checkin?.message}
+								onChange={e => setCheckin(e.target.value)}
+							></TextField>
+						</Grid>
+						<Grid xs={6} item>
+							<TextField
+								type="text"
+								variant="outlined"
+								name="leaveDate"
+								label="Leave date"
+								value={leaveDate}
+								{...register('leaveDate')}
+								error={errors.leaveDate ? true : false}
+								helperText={errors.leaveDate?.message}
+								onChange={e => setLeaveDate(e.target.value)}
+							></TextField>
+						</Grid>
+						<Grid xs={6} item>
+							<TextField
+								type="text"
+								variant="outlined"
+								name="paid"
+								label="Paid"
+								value={paid}
+								{...register('paid')}
+								error={errors.paid ? true : false}
+								helperText={errors.paid?.message}
+								onChange={e => setPaid(e.target.value)}
+							></TextField>
+						</Grid>
+						<Grid xs={6} item>
+							<TextField
+								type="text"
+								variant="outlined"
+								name="roomNo"
+								label="Room number"
+								value={roomNo}
+								{...register('roomNo')}
+								error={errors.roomNo ? true : false}
+								helperText={errors.roomNo?.message}
+								onChange={e => setRoomNo(e.target.value)}
+							></TextField>
+						</Grid>
+						<Grid xs={12} item>
+							{error ? (
+								<Alert severity="error" className="error">
+									<AlertTitle>{errorMessage.code}</AlertTitle>
+									{errorMessage.message}
+								</Alert>
+							) : (
+								<Button type="submit" variant="contained" fullWidth>
+									Book
+								</Button>
+							)}
+						</Grid>
 					</Grid>
-					<Grid xs={12} item>
-						<TextField
-							type="text"
-							variant="outlined"
-							name="username"
-							id="username"
-							placeholder="username"
-							value={username}
-							fullWidth
-							{...register('username')}
-							error={errors.username ? true : false}
-							helperText={errors.username?.message}
-							onChange={e => setUsername(e.target.value)}
-						></TextField>
-					</Grid>
-					<Grid xs={12} item>
-						<TextField
-							type="text"
-							variant="outlined"
-							name="name"
-							id="fullName"
-							placeholder="name"
-							value={fullName}
-							fullWidth
-							{...register('fullName')}
-							error={errors.fullName ? true : false}
-							helperText={errors.fullName?.message}
-							onChange={e => setFullName(e.target.value)}
-						></TextField>
-					</Grid>
-					<Grid xs={12} item>
-						<TextField
-							type="text"
-							variant="outlined"
-							name="email"
-							id="email"
-							placeholder="email"
-							value={email}
-							fullWidth
-							{...register('email')}
-							error={errors.email ? true : false}
-							helperText={errors.email?.message}
-							onChange={e => setEmail(e.target.value)}
-						></TextField>
-					</Grid>
-					<Grid xs={12} item>
-						<TextField
-							type="password"
-							variant="outlined"
-							name="password"
-							id="password"
-							placeholder="password"
-							value={password}
-							fullWidth
-							{...register('password')}
-							error={errors.password ? true : false}
-							helperText={errors.password?.message}
-							onChange={e => setPassword(e.target.value)}
-						></TextField>
-					</Grid>
-					<Grid xs={12} item>
-						<Button type="submit" variant="contained" fullWidth>
-							Register
-						</Button>
-					</Grid>
-				</Grid>
-			</form>
-		</>
+				</form>
+			</Box>
+		</Modal>
 	);
 };
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
 	Alert,
-	AlertTitle,	
+	AlertTitle,
 	Button,
 	Card,
 	CardActions,
@@ -26,13 +26,16 @@ const Rooms = () => {
 	const [errorMessage, setErrorMessage] = useState('');
 
 	const getRooms = async () => {
-			axios.get(process.env.REACT_APP_ROOMS_URL).then(res => {
+		axios
+			.get(`${process.env.REACT_APP_ROOMS_URL}?populate=*`)
+			.then(res => {
 				setRooms(res.data.data);
-			}).catch(error => {
+			})
+			.catch(error => {
 				console.error(error);
 				setErrorMessage(error);
 				hasError(true);
-			}) ;	
+			});
 	};
 
 	if (error) {
@@ -49,40 +52,40 @@ const Rooms = () => {
 	}
 
 	return (
-			<Container className={styles.container}>
-				<Card>
-					<CardContent className={styles.parent}>
-						{rooms.map(room => (
-							<Card key={room.id} className={styles.child}>
-								<CardHeader
-									title={room.attributes.type.toUpperCase()}
-									subheader={`Published: ${moment(
-										room.attributes.createdAt,
-									).format('DD/MMM/YYYY')}`}
+		<Container className={styles.container}>
+			<Card>
+				<CardContent className={styles.parent}>
+					{rooms.map(room => (
+						<Card key={room.id} className={styles.child}>
+							<CardHeader
+								title={room.attributes.type.toUpperCase()}
+								subheader={`Published: ${moment(
+									room.attributes.createdAt,
+								).format('DD/MMM/YYYY')}`}
+							/>
+							<CardContent className={styles.content}>
+								<CardMedia
+									className={styles.image}
+									component="img"
+									image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.images.data.attributes.url}`}
 								/>
-								<CardContent className={styles.content}>
-									<CardMedia
-										className={styles.image}
-										component="img"
-										image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.image_url}`}
-									/>
-									<Typography variant="body1">
-										{room.attributes.description}
-									</Typography>
-								</CardContent>
-								<CardActions className={styles.actions}>
-									<Typography variant="body2">
-										Number of beds: {room.attributes.beds}
-									</Typography>
-									<Button variant="contained" href={`/rooms/${room.id}`}>
-										Details
-									</Button>
-								</CardActions>
-							</Card>
-						))}
-					</CardContent>
-				</Card>
-			</Container>
+								<Typography variant="body1">
+									{room.attributes.description}
+								</Typography>
+							</CardContent>
+							<CardActions className={styles.actions}>
+								<Typography variant="body2">
+									Number of beds: {room.attributes.beds}
+								</Typography>
+								<Button variant="contained" href={`/rooms/${room.id}`}>
+									Details
+								</Button>
+							</CardActions>
+						</Card>
+					))}
+				</CardContent>
+			</Card>
+		</Container>
 	);
 };
 

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {
 	Alert,
 	AlertTitle,
+	Button,
 	Card,
 	CardActions,
 	CardContent,
@@ -16,6 +17,7 @@ import axios from 'axios';
 import { Container } from '@mui/system';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import { RegisterForm } from '../Forms';
 
 const Details = () => {
 	let { id } = useParams();
@@ -23,6 +25,9 @@ const Details = () => {
 	const [loading, isLoading] = useState(true);
 	const [error, hasError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const [open, setOpen] = useState(false);
+	const bookingModal = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	useEffect(() => {
 		getRoom();
@@ -30,7 +35,7 @@ const Details = () => {
 
 	const getRoom = async () => {
 		axios
-			.get(`${process.env.REACT_APP_ROOMS_URL}/${id}`)
+			.get(`${process.env.REACT_APP_ROOMS_URL}/${id}?populate=*`)
 			.then(res => {
 				setRoom(res.data.data);
 				isLoading(false);
@@ -72,7 +77,7 @@ const Details = () => {
 						<CardMedia
 							height="640px"
 							component="img"
-							image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.image_url}`}
+							image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.images.data.attributes.url}`}
 						/>
 						<Typography variant="h6">{room.attributes.type}</Typography>
 						<Typography
@@ -80,7 +85,10 @@ const Details = () => {
 							dangerouslySetInnerHTML={{ __html: room.attributes.priceTable }}
 						/>
 					</CardContent>
-					<CardActions></CardActions>
+					<CardActions>
+						<Button variant="contained" onClick={bookingModal}>Book</Button>
+					</CardActions>
+					<RegisterForm open={open} onClose={handleClose} room={room.attributes.roomNo} />
 				</Card>
 			)}
 		</Container>

@@ -1,19 +1,41 @@
-import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState} from 'react';
+import { CircularProgress, Typography } from '@mui/material';
 import { ImageSlider } from '../../components';
+import axios from 'axios';
 
 import styles from './home.module.scss';
 
 const Home = () => {
+	useEffect(() => {
+		getInfo();
+	}, []);
+	const [info, setInfo] = useState('');
+	const [loading, isLoading] = useState(true);
+
+
+	const getInfo = () => {
+		axios
+			.get(`${process.env.REACT_APP_API_BASE_URL}/api/home-info`)
+			.then(res => {
+				setInfo(res.data.data);
+				isLoading(false);
+			})
+			.catch(error => console.error(error));
+	};
+
 	return (
 		<>
 			<div>
 				<ImageSlider />
 			</div>
 			<div>
-				<Typography className={styles.header}>
-					This is the header of the home page
-				</Typography>
+				{loading ? 
+					<CircularProgress /> 
+				: 
+					<Typography className={styles.header}>
+						{info.attributes.header}
+					</Typography>
+				}
 			</div>
 		</>
 	);

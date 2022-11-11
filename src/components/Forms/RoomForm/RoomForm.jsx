@@ -122,7 +122,7 @@ const RoomForm = ({ open, onClose }) => {
 								rows={5}
 								variant="outlined"
 								name="roomPrice"
-								placeholder="Room price table"
+								placeholder="Room price table (code formatting allowed)"
 								value={roomPrice}
 								{...register('roomPrice')}
 								error={errors.roomPrice ? true : false}

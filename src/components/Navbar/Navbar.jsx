@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import CottageIcon from '@mui/icons-material/Cottage';
 import LoginForm from '../Forms/LoginForm/LoginForm';
 import styles from './Navbar.module.scss';
 
@@ -30,6 +31,10 @@ const Navbar = () => {
 			<AppBar position="static" className={styles.navBar}>
 				<Box sx={{ flexGrow: 1 }}>
 					<Toolbar>
+						<NavLink className={styles.navLink} to="/">
+							<CottageIcon sx={{ display: { xs: 'flex' }, mr: 1 }} />
+							<Typography variant="h5">Holidaze</Typography>
+						</NavLink>
 						<Box className={styles.links}>
 							{pages.map(page => (
 								<Typography variant="h6" component="div" key={page.name}>
