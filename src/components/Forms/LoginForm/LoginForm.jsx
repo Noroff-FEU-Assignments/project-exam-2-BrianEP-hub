@@ -55,10 +55,10 @@ const LoginForm = ({ open, onClose }) => {
 		}
 	};
 
-	const goToRegister = () => {
+	/* const goToRegister = () => {
 		navigate('/register');
 		onClose();
-	};
+	}; */
 
 	return (
 		<Modal open={open} onClose={onClose}>
@@ -101,12 +101,12 @@ const LoginForm = ({ open, onClose }) => {
 								Login
 							</Button>
 						</Grid>
-						<Grid xs={12} item>
+						{/* <Grid xs={12} item>
 							<Typography variant="body2">
 								Not yet registered? &nbsp;
 								<Button onClick={goToRegister}>click here</Button>
 							</Typography>
-						</Grid>
+						</Grid> */}
 					</Grid>
 				</form>
 			</Box>

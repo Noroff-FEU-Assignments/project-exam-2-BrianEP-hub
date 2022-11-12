@@ -14,6 +14,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 
+import styles from './register.module.scss';
+
 const style = {
 	position: 'absolute',
 	top: '50%',
@@ -26,7 +28,17 @@ const style = {
 	p: 4,
 };
 
-const validationSchema = Yup.object().shape({});
+const paymentOptions = [
+	{ value: true, label: 'Pay now' },
+	{ value: false, label: 'Pay on arrival' },
+];
+
+const validationSchema = Yup.object().shape({
+	fullname: Yup.string().required('Name is required'),
+	checkin: Yup.string().required('Specify checkin date'),
+	leaveDate: Yup.string().required('Specify checkout date'),
+	roomNo: Yup.string().required(''),
+});
 
 const RegisterForm = ({ open, onClose, room }) => {
 	const [fullname, setName] = useState('');
@@ -45,6 +57,10 @@ const RegisterForm = ({ open, onClose, room }) => {
 	} = useForm({
 		resolver: yupResolver(validationSchema),
 	});
+
+	const handleChange = e => {
+		setPaid(e.target.value);
+	};
 
 	const bookRoom = () => {
 		let headerList = {
@@ -117,7 +133,7 @@ const RegisterForm = ({ open, onClose, room }) => {
 								type="text"
 								variant="outlined"
 								name="leaveDate"
-								label="Leave date"
+								label="Checkout date"
 								value={leaveDate}
 								{...register('leaveDate')}
 								error={errors.leaveDate ? true : false}
@@ -126,7 +142,22 @@ const RegisterForm = ({ open, onClose, room }) => {
 							></TextField>
 						</Grid>
 						<Grid xs={6} item>
-							<TextField
+							<Typography variant="caption">Choose payment option</Typography>
+							<div>
+								{paymentOptions.map((p, i) => (
+									<label key={i}>
+										<input
+											className={styles.radio}
+											type="radio"
+											name="paid"
+											value={p.value}
+											onChange={handleChange}
+										/>
+										{p.label}
+									</label>
+								))}
+							</div>
+							{/* <TextField
 								type="text"
 								variant="outlined"
 								name="paid"
@@ -136,16 +167,17 @@ const RegisterForm = ({ open, onClose, room }) => {
 								error={errors.paid ? true : false}
 								helperText={errors.paid?.message}
 								onChange={e => setPaid(e.target.value)}
-							></TextField>
+							></TextField> */}
 						</Grid>
 						<Grid xs={6} item>
 							<TextField
 								type="text"
-								variant="outlined"
+								variant="filled"
 								name="roomNo"
 								label="Room number"
 								value={roomNo}
 								{...register('roomNo')}
+								inputProps={{ readOnly: true }}
 								error={errors.roomNo ? true : false}
 								helperText={errors.roomNo?.message}
 								onChange={e => setRoomNo(e.target.value)}
