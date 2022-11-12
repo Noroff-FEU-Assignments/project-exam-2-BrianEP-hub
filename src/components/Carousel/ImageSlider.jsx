@@ -14,7 +14,7 @@ const ImageSlider = () => {
 	const [heroes, setHeroes] = useState([]);
 
 	const getHero = () => {
-		axios.get(process.env.REACT_APP_HERO_URL).then(res => {
+		axios.get(`${process.env.REACT_APP_HERO_URL}?populate=*`).then(res => {
 			setHeroes(res.data.data);
 		});
 	};
@@ -28,7 +28,7 @@ const ImageSlider = () => {
 			{heroes.map(hero => (
 			<Paper className={styles.paper} key={hero.id}>
 				<img
-					src={`${process.env.REACT_APP_API_BASE_URL}${hero.attributes.hero_banner_url}`}
+					src={`${process.env.REACT_APP_API_BASE_URL}${hero.attributes.hero_banner.data.attributes.url}`}
 					alt={hero.attributes.hero_banner_alt_text}
 				/>
 			</Paper>
