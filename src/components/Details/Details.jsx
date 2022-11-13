@@ -77,7 +77,7 @@ const Details = () => {
 						<CardMedia
 							height="640px"
 							component="img"
-							image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.images.data.attributes.url}`}
+							image={`${room.attributes.images.data.attributes.url}`}
 						/>
 						<Typography variant="h6">{room.attributes.type}</Typography>
 						<Typography

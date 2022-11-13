@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { CircularProgress, Typography } from '@mui/material';
+import { CircularProgress, Container, Typography } from '@mui/material';
 import { ImageSlider } from '../../components';
 import axios from 'axios';
 
@@ -32,9 +32,14 @@ const Home = () => {
 				{loading ? 
 					<CircularProgress /> 
 				: 
+				<Container>
 					<Typography className={styles.header}>
 						{info.attributes.header}
 					</Typography>
+					<Typography>
+						{info.attributes.description}
+					</Typography>
+				</Container>
 				}
 			</div>
 		</>

@@ -28,7 +28,7 @@ const ImageSlider = () => {
 			{heroes.map(hero => (
 			<Paper className={styles.paper} key={hero.id}>
 				<img
-					src={`${process.env.REACT_APP_API_BASE_URL}${hero.attributes.hero_banner.data.attributes.url}`}
+					src={`${hero.attributes.hero_banner.data.attributes.url}`}
 					alt={hero.attributes.hero_banner_alt_text}
 				/>
 			</Paper>

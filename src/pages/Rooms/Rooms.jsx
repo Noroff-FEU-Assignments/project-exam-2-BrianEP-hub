@@ -81,7 +81,7 @@ const Rooms = () => {
 									<CardMedia
 										className={styles.image}
 										component="img"
-										image={`${process.env.REACT_APP_API_BASE_URL}${room.attributes.images.data.attributes.url}`}
+										image={`${room.attributes.images.data.attributes.url}`}
 									/>
 									<Typography variant="body1">
 										{room.attributes.description}
