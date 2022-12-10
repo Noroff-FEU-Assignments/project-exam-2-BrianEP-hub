@@ -1,4 +1,5 @@
 # Languages used
+## Frontend technology
 ![My Skills](https://skillicons.dev/icons?i=react,scss,materialui)
 ## Backend technology
 ![Strapi](https://img.shields.io/badge/strapi-%232E7EEA.svg?style=for-the-badge&logo=strapi&logoColor=white)
